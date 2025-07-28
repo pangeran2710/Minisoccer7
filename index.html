@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniSoccer Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>MiniSoccer Manager</h1>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span>Panitia</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <button class="nav-button active" data-tab="players">
+                <i class="fas fa-users"></i>
+                Pemain
+            </button>
+            <button class="nav-button" data-tab="finance">
+                <i class="fas fa-wallet"></i>
+                Keuangan
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Players Tab -->
+        <div id="players-tab" class="tab-content active">
+            <div class="header-section">
+                <h2>Daftar Pemain</h2>
+                <button class="btn btn-primary" id="add-player-btn">
+                    <i class="fas fa-plus"></i>
+                    Tambah Pemain
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-icon icon-blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Total Pemain</div>
+                            <div class="stat-value" id="total-players">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-icon icon-green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Sudah Bayar</div>
+                            <div class="stat-value" id="paid-players">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div class="stat-icon icon-red">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Belum Bayar</div>
+                            <div class="stat-value" id="unpaid-players">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Tim</th>
+                                <th>Telepon</th>
+                                <th>Jumlah</th>
+                                <th>Status</th>
+                                <th>Metode</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="players-table-body">
+                            <!-- Player rows will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Finance Tab -->
+        <div id="finance-tab" class="tab-content">
+            <div class="header-section">
+                <h2>Keuangan</h2>
+                <button class="btn btn-primary" id="add-transaction-btn">
+                    <i class="fas fa-plus"></i>
+                    Tambah Transaksi
+                </button>
+            </div>
+
+            <div class="finance-summary">
+                <div class="finance-card">
+                    <div class="finance-card-header">
+                        <div class="finance-icon icon-income">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Total Pemasukan</div>
+                            <div class="stat-value" id="total-income">Rp 0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="finance-card">
+                    <div class="finance-card-header">
+                        <div class="finance-icon icon-expense">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Total Pengeluaran</div>
+                            <div class="stat-value" id="total-expense">Rp 0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="finance-card">
+                    <div class="finance-card-header">
+                        <div class="finance-icon icon-balance">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Saldo Akhir</div>
+                            <div class="stat-value" id="balance">Rp 0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Jenis</th>
+                                <th>Sumber</th>
+                                <th>Jumlah</th>
+                                <th>Metode</th>
+                                <th>Deskripsi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table-body">
+                            <!-- Transaction rows will be inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Player Modal -->
+    <div class="modal" id="player-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="player-modal-title">Tambah Pemain</h3>
+        </div>
+        <div class="modal-body">
+            <form id="player-form">
+                <input type="hidden" id="player-id">
+                <div class="form-group">
+                    <label for="player-name">Nama Pemain</label>
+                    <input type="text" id="player-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="player-phone">Nomor Telepon</label>
+                    <input type="text" id="player-phone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="player-team">Nama Tim</label>
+                    <input type="text" id="player-team" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="player-amount">Jumlah Bayar</label>
+                    <input type="number" id="player-amount" class="form-control" value="50000" required>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="player-paid">
+                        <label for="player-paid">Sudah Bayar</label>
+                    </div>
+                </div>
+                <!-- TAMBAHKAN KODE INI -->
+                <div class="form-group" id="payment-method-group" style="display: none;">
+                    <label for="player-payment-method">Metode Pembayaran</label>
+                    <select id="player-payment-method" class="form-control">
+                        <option value="BCA">BCA</option>
+                        <option value="DANA">DANA</option>
+                    </select>
+                </div>
+                <div class="form-group" id="payment-date-group" style="display: none;">
+                    <label for="player-payment-date">Tanggal Pembayaran</label>
+                    <input type="date" id="player-payment-date" class="form-control">
+                </div>
+                <!-- AKHIR TAMBAHAN KODE -->
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="cancel-player-btn">Batal</button>
+            <button class="btn btn-primary" id="save-player-btn">Simpan</button>
+        </div>
+    </div>
+    </div>
+
+    <!-- Transaction Modal -->
+    <div class="modal" id="transaction-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="transaction-modal-title">Tambah Transaksi</h3>
+            </div>
+            <div class="modal-body">
+                <form id="transaction-form">
+                    <input type="hidden" id="transaction-id">
+                    <div class="form-group">
+                        <label for="transaction-type">Jenis Transaksi</label>
+                        <select id="transaction-type" class="form-control" required>
+                            <option value="income">Pemasukan</option>
+                            <option value="expense">Pengeluaran</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-source">Sumber</label>
+                        <input type="text" id="transaction-source" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-amount">Jumlah</label>
+                        <input type="number" id="transaction-amount" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-method">Metode Pembayaran</label>
+                        <select id="transaction-method" class="form-control" required>
+                            <option value="BCA">BCA</option>
+                            <option value="DANA">DANA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-date">Tanggal</label>
+                        <input type="date" id="transaction-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-description">Deskripsi</label>
+                        <textarea id="transaction-description" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-transaction-btn">Batal</button>
+                <button class="btn btn-primary" id="save-transaction-btn">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
