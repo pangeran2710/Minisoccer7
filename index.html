@@ -17,10 +17,20 @@
                     <i class="fas fa-users"></i>
                 </div>
                 <span>Panitia</span>
+            
+            <!-- Tombol Export/Import Global -->
+            <div style="margin-left: auto; display: flex; gap: 10px;">
+                <button class="btn btn-secondary" id="export-all-btn" title="Export Semua Data">
+                    <i class="fas fa-file-export"></i> Export
+                </button>
+                <input type="file" id="import-all-file" accept=".json" style="display: none;">
+                <button class="btn btn-secondary" id="import-all-btn" title="Import Semua Data">
+                    <i class="fas fa-file-import"></i> Import
+                </button>
+            </div>
             </div>
         </div>
     </header>
-
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-content">
@@ -28,25 +38,28 @@
                 <i class="fas fa-users"></i>
                 Pemain
             </button>
+            <button class="nav-button" data-tab="events">
+                <i class="fas fa-calendar-alt"></i>
+                Detail Acara
+            </button>
             <button class="nav-button" data-tab="finance">
                 <i class="fas fa-wallet"></i>
                 Keuangan
             </button>
         </div>
     </nav>
-
     <!-- Main Content -->
     <main class="main-content">
         <!-- Players Tab -->
         <div id="players-tab" class="tab-content active">
             <div class="header-section">
                 <h2>Daftar Pemain</h2>
-                <button class="btn btn-primary" id="add-player-btn">
-                    <i class="fas fa-plus"></i>
-                    Tambah Pemain
-                </button>
+                <div>
+                    <button class="btn btn-primary" id="add-player-btn" style="margin-right: 10px;">
+                        <i class="fas fa-plus"></i> Tambah Pemain
+                    </button>
+                </div>
             </div>
-
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-card-header">
@@ -82,7 +95,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="card">
                 <div class="table-container">
                     <table>
@@ -104,17 +116,33 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- Events/Detail Acara Tab -->
+        <div id="events-tab" class="tab-content">
+            <div class="header-section">
+                <h2>Detail Acara</h2>
+                <button class="btn btn-primary" id="add-event-btn">
+                    <i class="fas fa-plus"></i>
+                    Tambah Acara
+                </button>
+            </div>
+            
+            <div id="events-container">
+                <!-- Event cards will be inserted here -->
+            </div>
+        </div>
+        
         <!-- Finance Tab -->
         <div id="finance-tab" class="tab-content">
             <div class="header-section">
                 <h2>Keuangan</h2>
-                <button class="btn btn-primary" id="add-transaction-btn">
-                    <i class="fas fa-plus"></i>
-                    Tambah Transaksi
-                </button>
+                <div>
+                    <button class="btn btn-primary" id="add-transaction-btn" style="margin-right: 10px;">
+                        <i class="fas fa-plus"></i> Tambah Transaksi
+                    </button>
+                </div>
             </div>
-
+            <!-- Rekapitulasi Utama -->
             <div class="finance-summary">
                 <div class="finance-card">
                     <div class="finance-card-header">
@@ -151,6 +179,40 @@
                 </div>
             </div>
 
+            <!-- Rekapitulasi per Metode -->
+            <div class="finance-summary">
+                <div class="finance-card">
+                    <div class="finance-card-header">
+                        <div class="finance-icon icon-blue">
+                            <i class="fas fa-landmark"></i> <!-- Icon BCA -->
+                        </div>
+                        <div>
+                            <div class="stat-title">Saldo BCA</div>
+                            <div class="stat-value" id="balance-bca">Rp 0</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <span>Pemasukan: <span id="income-bca">Rp 0</span></span>
+                        <span>Pengeluaran: <span id="expense-bca">Rp 0</span></span>
+                    </div>
+                </div>
+                <div class="finance-card">
+                    <div class="finance-card-header">
+                        <div class="finance-icon icon-purple"> <!-- Tambahkan CSS untuk icon-purple -->
+                            <i class="fas fa-mobile-alt"></i> <!-- Icon DANA -->
+                        </div>
+                        <div>
+                            <div class="stat-title">Saldo DANA</div>
+                            <div class="stat-value" id="balance-dana">Rp 0</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <span>Pemasukan: <span id="income-dana">Rp 0</span></span>
+                        <span>Pengeluaran: <span id="expense-dana">Rp 0</span></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="table-container">
                     <table>
@@ -173,7 +235,6 @@
             </div>
         </div>
     </main>
-
     <!-- Player Modal -->
     <div class="modal" id="player-modal">
     <div class="modal-content">
@@ -197,7 +258,7 @@
                 </div>
                 <div class="form-group">
                     <label for="player-amount">Jumlah Bayar</label>
-                    <input type="number" id="player-amount" class="form-control" value="50000" required>
+                    <input type="number" id="player-amount" class="form-control" value="40000" required>
                 </div>
                 <div class="form-group">
                     <div class="checkbox-group">
@@ -205,7 +266,6 @@
                         <label for="player-paid">Sudah Bayar</label>
                     </div>
                 </div>
-                <!-- TAMBAHKAN KODE INI -->
                 <div class="form-group" id="payment-method-group" style="display: none;">
                     <label for="player-payment-method">Metode Pembayaran</label>
                     <select id="player-payment-method" class="form-control">
@@ -217,7 +277,6 @@
                     <label for="player-payment-date">Tanggal Pembayaran</label>
                     <input type="date" id="player-payment-date" class="form-control">
                 </div>
-                <!-- AKHIR TAMBAHAN KODE -->
             </form>
         </div>
         <div class="modal-footer">
@@ -226,7 +285,6 @@
         </div>
     </div>
     </div>
-
     <!-- Transaction Modal -->
     <div class="modal" id="transaction-modal">
         <div class="modal-content">
@@ -274,7 +332,71 @@
             </div>
         </div>
     </div>
-
+    
+    <!-- Event Modal -->
+    <div class="modal" id="event-modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3 id="event-modal-title">Tambah Detail Acara</h3>
+            </div>
+            <div class="modal-body">
+                <form id="event-form">
+                    <input type="hidden" id="event-id">
+                    <div class="form-group">
+                        <label for="event-date">Tanggal Pertandingan</label>
+                        <input type="date" id="event-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-time">Jam Pertandingan</label>
+                        <input type="time" id="event-time" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-venue">Tempat Pertandingan</label>
+                        <input type="text" id="event-venue" class="form-control" placeholder="Nama lapangan/fasilitas" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-field-number">Nomor Lapangan</label>
+                        <input type="text" id="event-field-number" class="form-control" placeholder="Lapangan 1, Lapangan A, dll.">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-field-price">Harga Sewa Lapangan (Rp)</label>
+                        <input type="number" id="event-field-price" class="form-control" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-referee-price">Harga Sewa Wasit (Rp)</label>
+                        <input type="number" id="event-referee-price" class="form-control" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-photographer-price">Harga Sewa Fotografer (Rp)</label>
+                        <input type="number" id="event-photographer-price" class="form-control" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-drink-price">Harga Air Minum (Rp)</label>
+                        <input type="number" id="event-drink-price" class="form-control" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="total-price">Total Biaya</label>
+                        <input type="number" id="total-price" class="form-control" readonly value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="event-description">Deskripsi Acara</label>
+                        <textarea id="event-description" class="form-control" rows="3" placeholder="Catatan tambahan untuk acara ini"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-player-list">Daftarkan Pemain untuk Acara Ini:</label>
+                        <div id="event-player-list" style="max-height: 200px; overflow-y: auto; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.5rem;">
+                            <!-- Daftar pemain akan diisi oleh JavaScript -->
+                            <p style="text-align: center; color: #6b7280;">Memuat daftar pemain...</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-event-btn">Batal</button>
+                <button class="btn btn-primary" id="save-event-btn">Simpan</button>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
