@@ -297,6 +297,7 @@ tr:hover {
     display: block;
 }
 
+/* Modal Styles - Improved */
 .modal {
     display: none;
     position: fixed;
@@ -308,6 +309,7 @@ tr:hover {
     z-index: 1000;
     align-items: center;
     justify-content: center;
+    padding: 1rem; /* Add padding to prevent content from touching edges on small screens */
 }
 
 .modal.show {
@@ -321,6 +323,13 @@ tr:hover {
     max-width: 500px;
     box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
     animation: modalSlideIn 0.3s ease-out;
+    max-height: 90vh; /* Limit modal height */
+    overflow-y: auto; /* Add scrollbar if content overflows */
+}
+
+/* Specific styles for Event Modal */
+#event-modal .modal-content {
+    max-width: 600px; /* Wider for event form */
 }
 
 @keyframes modalSlideIn {
@@ -343,6 +352,7 @@ tr:hover {
     font-size: 1.25rem;
     font-weight: 600;
     color: #1f2937;
+    margin: 0; /* Remove default margin */
 }
 
 .modal-body {
@@ -366,6 +376,7 @@ tr:hover {
     border: 1px solid #d1d5db;
     border-radius: 0.5rem;
     font-size: 1rem;
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .form-control:focus {
@@ -385,6 +396,7 @@ tr:hover {
     border-top: 1px solid #e5e7eb;
     display: flex;
     gap: 1rem;
+    justify-content: flex-end; /* Align buttons to the right */
 }
 
 .finance-summary {
@@ -433,6 +445,20 @@ tr:hover {
     color: #3b82f6;
 }
 
+.payment-method-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.icon-purple {
+    background-color: #d8b4fe; /* Warna ungu muda untuk DANA */
+    color: #7e22ce; /* Warna ungu tua */
+}
+
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -457,13 +483,186 @@ tr:hover {
     .nav-button {
         justify-content: center;
     }
+    
+    .modal {
+        padding: 0.5rem; /* Less padding on mobile */
+    }
+    
+    .modal-content {
+        max-height: 95vh; /* Slightly higher on mobile */
+    }
+    
+    .modal-footer {
+        flex-direction: column; /* Stack buttons on mobile */
+    }
+    
+    .modal-footer .btn {
+        width: 100%; /* Full width buttons on mobile */
+    }
 }
 
-.payment-method-badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
+/* Event Cards */
+.event-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.event-card-header {
+    background-color: #3b82f6;
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-card-body {
+    padding: 1.5rem;
+}
+
+.event-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.event-detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-detail-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.event-detail-value {
     font-weight: 600;
-    background-color: #e0f2fe;
-    color: #0369a1;
+    color: #1f2937;
+}
+
+.event-teams-section {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.event-teams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.team-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.team-header {
+    background-color: #f3f4f6;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.team-players {
+    min-height: 100px;
+}
+
+.team-player-item {
+    padding: 0.5rem;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+}
+
+.team-player-item:last-child {
+    border-bottom: none;
+}
+
+.draggable-player {
+    cursor: move;
+    padding: 0.5rem;
+    background-color: #f9fafb;
+    border: 1px dashed #d1d5db;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drop-zone {
+    min-height: 50px;
+    border: 2px dashed #d1d5db;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+.drop-zone.active {
+    border-color: #3b82f6;
+    background-color: #dbeafe;
+}
+
+/* Untuk drag and drop */
+.dragging {
+    opacity: 0.5;
+}
+
+/* Responsive untuk event details */
+@media (max-width: 768px) {
+    .event-details-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .event-teams-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Styling untuk daftar pemain */
+#event-player-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+#event-player-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#event-player-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#event-player-list li:last-child {
+    border-bottom: none;
+}
+
+#event-player-list label {
+    cursor: pointer;
+}
+
+#event-player-list input[type="checkbox"] {
+    margin-right: 0.5rem;
 }
